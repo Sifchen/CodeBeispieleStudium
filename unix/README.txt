@@ -1,3 +1,6 @@
+ES SIND NICHT ALLE TESTFÄLLE VORHANDEN -> Github macht probleme.
+
+
 Für das Testen der Programme / skripte wird arnold benutzt.
 
 In der bash hat es folgenden aufruf: ./arnold ./ZUTESTENDESSKRIPTBZWPROGRAMM beispieltest.arnold
