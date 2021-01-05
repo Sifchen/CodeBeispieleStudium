@@ -1,0 +1,26 @@
+Fall 1: Keine Dateien -> Ignorierbare Fehlermeldung (ls sucht nach *.txt findet aber keine Datei)
+
+Fall 2: Gültige Textdateien vorhanden
+	(Ordnerinhalt: foo.txt bar.txt lister.sh)
+	Skript erstellt info.
+	Skript erstellt in info/ mytxtfiles.txt und listet darin bar.txt und foo.txt auf.
+
+Fall 3: Gültige Textdateien und weietere Datei vorhanden
+	(Ordnerinhalt: foo.pdf foo.txt bar.txt lister.sh)
+	Skript erstellt info.
+	Skript erstellt in info/ mytxtfiles.txt und listet darin bar.txt und foo.txt auf.
+	foo.pdf wird ignoriert da nur .txt Dateien dem Suchmuster entsprechen
+
+Fall 4: Gültige Textdateien vorhanden ordner existiert bereits
+	(Ordnerinhalt: info/ foo.txt bar.txt lister.sh)
+	Skript leitet Fehlermeldung in /dev/null um ,somit wird sie nicht im Terminal ausgegeben.
+	Skript erstellt/ueberschreibt in info/ mytxtfiles.txt und listet darin bar.txt und foo.txt auf.
+	foo.pdf wird ignoriert da nur .txt Dateien dem Suchmuster entsprechen.
+
+Fall 5: Keine Dateien Ordner existiert
+-> Ignorierbare Fehlermeldung (ls sucht nach *.txt findet aber keine Datei)
+	 mytxtfiles.txt wird dennoch erstellt, ist jedoch leer.
+
+Fall 6: Keine Dateien Ordner und mytxtfiles.txt existieren
+-> Ignorierbare Fehlermeldung (ls sucht nach *.txt findet aber keine Datei)
+	 mytxtfiles.txt wird ueberschrieben, ist jedoch leer.

@@ -1,0 +1,208 @@
+
+test {
+    name    = 1. Hilfeaufruf: Ausgabe
+    comment = Hilfetext anfordern und ueberpruefen
+    type    = param
+    cmd       {DUT -h | diff - help.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 2a. Hilfeaufruf: Exit code
+    comment = Erwartet einen exit code von 0 bei korrektem Hilfeaufruf
+    type    = param
+    cmd       {DUT -h 1>/dev/null && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 2b. Hilfeaufruf: Exit code (zweite Variante zur Ueberpruefung)
+    comment = Erwartet einen exit code von 0 bei korrektem Hilfeaufruf
+    type    = param
+    cmd       {DUT -h 1>/dev/null ; echo "$?"}
+    expect    {^0$}
+}
+
+test {
+    name    = 3a. Korrekter Aufruf mit einfacher Addition und Visualisierung
+    comment = Erwartet zun�chst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 1 2 ADD | diff - example.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 3a2. Korrekter Aufruf mit einfacher Addition einer Negativen Zahl und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i -1 7 ADD | diff - simpleNegativeAdd.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 3a3. Korrekter Aufruf mit verschachtelter Addition und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 1 2 ADD 4 ADD 2 ADD | diff - complexAdd.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 3b1. Korrekter Aufruf mit einfacher Addition und Visualisierung
+    comment = Erwartet als erstes die Visualisierung auf stdout und prueft nur diese
+    type    = param
+    cmd       {DUT -i 1 2 ADD | head -1 }
+    expect    {^\(1\+2\)$}
+}
+
+test {
+    name    = 3b2. Korrekter Aufruf mit einfacher Addition und Visualisierung
+    comment = Erwartet das Ergebnis als letztes auf stdout und prueft nur dieses
+    type    = param
+    cmd       {DUT -i 1 2 ADD | tail -1 }
+    expect    {^3$}
+}
+
+test {
+    name    = 4. Korrekter Aufruf mit einfacher Multiplikation und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 10 7 MUL | diff - simpleMul.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 4a. Korrekter Aufruf mit einfacher Multiplikation einer Negativen Zahl und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i -10 7 MUL | diff - simpleNegativeMul.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 4b. Korrekter Aufruf mit einfacher Multiplikation mit beiden Parametern Null und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 0 0 MUL | diff - simpleBothNullMul.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 5. Korrekter Aufruf mit einfacher Division und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 20 2 DIV | diff - simpleDiv.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 5a. Korrekter Aufruf mit einfacher Division einer Negativen Zahl und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 20 -2 DIV | diff - simpleNegativeDiv.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 6. Korrekter Aufruf mit einfacher Subtraktion und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 32 5 SUB | diff - simpleSub.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 6a. Korrekter Aufruf mit einfacher Subtraktion einer Negativen Zahl und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 32 -5 SUB | diff - simpleNegativeSub.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 6b. Korrekter Aufruf mit einfacher Subtraktion mit Null und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 32 0 SUB | diff - simpleNullSub.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 7. Korrekter Aufruf mit einfachem Modulo und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 7 5 MOD | diff - simpleMod.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 7a. Korrekter Aufruf mit einfachem Modulo und Negativer Zahl und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 7 -5 MOD | diff - simpleNegativeMod.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 8. Korrekter Aufruf mit verschachteltem Aufruf verschiedener Operanden und Operatoren und Visualisierung
+    comment = Erwartet zunaechst die Visualisierung und dann das Ergebnis auf stdout
+    type    = param
+    cmd       {DUT -i 2 4 ADD -7 MUL 4 DIV -2 SUB | diff - complexVarious.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 9. Falscher aufruf der Hilfe
+    comment = Erwartet einen Exitcode von 1
+    type    = param
+    cmd       {DUT -h -i 1 2 &>/dev/null ; echo "$?"}
+    expect    {^1$}
+}
+
+test {
+    name    = 9b. Korrekter aufruf der Hilfe
+    comment = Erwartet einen Exitcode von 0
+    type    = param
+    cmd       {DUT -h &>/dev/null ; echo "$?"}
+    expect    {^0$}
+}
+
+test {
+    name    = 10. Division durch null ohne visualisierung
+    comment = Erwartet einen Exitcode von 2
+    type    = param
+    cmd       {DUT 1 2 ADD 0 DIV &>/dev/null ; echo "$?"}
+    expect    {^2$}
+}
+
+test {
+    name    = 10b. Division durch null mit visualisierung
+    comment = Erwartet einen Exitcode von 2
+    type    = param
+    cmd       {DUT -i 1 2 ADD 0 DIV &>/dev/null ; echo "$?"}
+    expect    {^2$}
+}
+
+test {
+    name    = 11. Alleiniger Visualisierungsaufruf
+    comment = Erwartet einen Exitcode von 1
+    type    = param
+    cmd       {DUT -i &>/dev/null ; echo "$?"}
+    expect    {^1$}
+}
+
+test {
+    name    = 12. Aufruf ohne Parameter
+    comment = Erwartet einen Error
+    type    = param
+    cmd       {DUT}
+    expect    {^Error:}
+}
+
+test {
+    name    = 13. Aufruf ungerade anzahl an wiederholten Parametern
+    comment = Erwartet einen Error
+    type    = param
+    cmd       {DUT 2 3 ADD 5}
+    expect    {^Error:}
+}

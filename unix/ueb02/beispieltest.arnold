@@ -1,0 +1,121 @@
+
+test {
+    name    = Beispieltest Teil 1 (stdout)
+    comment = Testet die Standardausgabe
+    type    = param
+    cmd     {cat beispieltest.in | DUT beispieltest.out}
+    expect  {^SoRichtigSchlecht$}
+}
+
+test {
+    name    = Beispieltest Teil 2 (Datei)
+    comment = Testet die geschriebene Datei aus Basistest Teil 1
+    type    = param
+    cmd     {diff beispieltest.out beispieltest.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test des ueberspringens des Fails (stdout)
+    comment = Testet die Standardausgabe der Datei mit den <Failed> (testFailed.in)
+    type    = param
+    cmd     {cat testFailed.in | DUT testFailed.out}
+    expect  {^ich$}
+}
+
+test {
+    name    = Test des ueberspringens des Fails (Datei)
+    comment = Testet die geschriebene Datei der Datei aus Test mit den <Failed>
+    type    = param
+    cmd     {diff testFailed.out testFailed.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test des sortierens (stdout)
+    comment = Testet die Standardausgabe der Datei mit den zu sortierenden (testSort.in)
+    type    = param
+    cmd     {cat testSort.in | DUT testSort.out}
+    expect  {^ich$}
+}
+
+test {
+    name    = Test des sortierens (Datei)
+    comment = Testet die geschriebene Datei der Datei aus Test mit dem sortieren
+    type    = param
+    cmd     {diff testSort.out testSort.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test des sortierens mit doppelten Bewertungen in 3. Zeile (stdout)
+    comment = Testet die Standardausgabe der Datei mit den zu sortierenden mit doppelten (testSortDouble.in)
+    type    = param
+    cmd     {cat testSortDouble.in | DUT testSortDouble.out}
+    expect  {^"ich"$}
+}
+
+test {
+    name    = Test des sortierens mit doppelten Bewertungen in 3. Zeile (Datei)
+    comment = Testet die geschriebene Datei der Datei aus Test mit den zu sortierenden doppelten
+    type    = param
+    cmd     {diff testSortDouble.out testSortDouble.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test mit 2 exakt gleichen Zeilen (stdout)
+    comment = Testet die Standardausgabe der Datei mit 2 exakt gleichen Zeilen (testExactSame.in)
+    type    = param
+    cmd     {cat testExactSame.in | DUT testExactSame.out}
+    expect  {^hallo$}
+}
+
+test {
+    name    = Test mit 2 exakt gleichen Zeilen (Datei)
+    comment = Testet die geschriebene Datei der Datei aus Test mit den exakt gleichen Zeilen
+    type    = param
+    cmd     {diff testExactSame.out testExactSame.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test mit leerer eingabe (stdout)
+    comment = Testet die Standardausgabe der Datei mit einer leeren Datei als eingabe (testEmpty.in)
+    type    = param
+    cmd     {cat testEmpty.in | DUT testEmpty.out}
+    expect  {^$}
+}
+
+
+test {
+    name    = Test mit leerer eingabe (Datei)
+    comment = Testet die geschriebene Datei der Datei aus Test mit leerer Eingabe
+    type    = param
+    cmd     {diff testEmpty.out testEmpty.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test mit leerer Zeile in Eingabe (stdout)
+    comment = Testet die Standardausgabe der Datei mit einer leeren Zeile als Eingabe (testEmptyRow.in)
+    type    = param
+    cmd     {cat testEmptyRow.in | DUT testEmptyRow.out}
+    expect  {^goo$}
+}
+
+test {
+    name    = Test mit leerer Zeile in Eingabe (Datei)
+    comment = Testet die geschriebene Datei der Datei aus Test mit leerer Zeile in Eingabe
+    type    = param
+    cmd     {diff testEmptyRow.out testEmptyRow.exp}
+    expect  {^$}
+}
+
+test {
+    name    = Test mit fast verschiedenen Eingaben (stdout)
+    comment = Testet die Anzahl an Zeilen in der Ausgabe um zu schauen ob ungewollt ungleiche Zeilen geloescht werden (testDelete.in)
+    type    = param
+    cmd     {cat testDelete.in | DUT testDelete.out >/dev/null; cat testDelete.out | wc -l | tr -d ' '}
+    expect  {^7$}
+}

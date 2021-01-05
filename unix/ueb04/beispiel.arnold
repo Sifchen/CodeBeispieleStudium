@@ -1,0 +1,158 @@
+test {
+    name    = 1. Hilfeaufruf: Ausgabe
+    comment = Hilfetext anfordern und ueberpruefen
+    type    = param
+    cmd       {DUT -h | diff - help.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 2. Hilfeaufruf: Return code
+    comment = Erwartet einen return code von 0 bei korrektem Hilfeaufruf
+    type    = param
+    cmd       {DUT -h 1>/dev/null && echo "ok"}
+    expect    {^ok$}
+}
+
+test {
+    name    = 2.1 Hilfeaufruf: mehrere Optionen
+    comment = Erwartet eine Fehlermeldung (WRONG USAGE)
+    type    = param
+    cmd       {DUT usepackage.tex -h -u}
+    expect    {^Error:}
+}
+
+test {
+    name    = 2.2 Hilfeaufruf: mehrere Optionen
+    comment = Erwartet Errorcode 1 (WRONG USAGE)
+    type    = param
+    cmd       {DUT usepackage.tex -h -u &>/dev/null; echo "$?"}
+    expect    {^1$}
+}
+
+test {
+    name    = 3. Includegraphics-Ausgabe
+    comment = Erwartet eine korrekte Ausgabe der verwendeten Grafiken
+    type    = param
+    cmd       {DUT Latex_Mini_Dummy.tex -g}
+    expect    {^imgfoo\nimgfoo$}
+}
+
+test {
+    name    = 3.1 Includegraphics-Ausgabe (Kommentare in Latex Datei)
+    comment = Erwartet eine korrekte Ausgabe der verwendeten Grafiken
+    type    = param
+    cmd       {DUT 9.tex -g}
+    expect    {^ichbinda\nichauch$}
+}
+
+test {
+    name    = 3.2 Includegraphics-Ausgabe (Weitere Befehle direkt nach match)
+    comment = Erwartet eine korrekte Ausgabe der verwendeten Grafiken
+    type    = param
+    cmd       {DUT 2.tex -g}
+    expect    {^imgfoo$}
+}
+
+test {
+    name    = 3.3 Includegraphics-Ausgabe (Ohne fuehrendes "/" vor Befehl)
+    comment = Erwartet eine korrekte Ausgabe der verwendeten Grafiken
+    type    = param
+    cmd       {DUT 11.tex -g}
+    expect    {^imgfoo$}
+}
+
+test {
+    name    = 3.4 Includegraphics-Ausgabe (Mehrere Zeilen)
+    comment = Erwartet eine korrekte Ausgabe der verwendeten Grafiken
+    type    = param
+    cmd       {DUT testAcrossMultipleLines.tex -g}
+    expect    {^imgfoo$}
+}
+
+test {
+    name    = 4. Structure-Ausgabe
+    comment = Erwartet eine korrekte Ausgabe der Struktur
+    type    = param
+    cmd       {DUT Latex_Mini_Dummy.tex -s}
+    expect    {^ Lorem ipsum chapter\n |-- Lorem ipsum section\n     |-- Lorem ipsum subsection$}
+}
+
+test {
+    name    = 4.1 Structure-Ausgabe (mit *)
+    comment = Erwartet eine korrekte Ausgabe der Struktur
+    type    = param
+    cmd       {DUT testStructureWithStar.tex -s}
+    expect    {^ Lorem ipsum chapter\n |-- Lorem ipsum section\n     |-- Lorem ipsum subsection$}
+}
+
+test {
+    name    = 4.2 Structure-Ausgabe (Alternative Testmethode)
+    comment = Erwartet eine korrekte Ausgabe der Struktur
+    type    = param
+    cmd       {DUT Latex_Mini_Dummy.tex -s | diff - bsp.exp}
+    expect    {^$}
+}
+
+test {
+    name    = 4.3 Structure-Ausgabe (mehrere Zeilen)
+    comment = Erwartet eine korrekte Ausgabe der Struktur
+    type    = param
+    cmd       {DUT testAcrossMultipleLines.tex -s}
+    expect    {^ Lorem ipsum chapter\n |-- Lorem ipsum section\n     |-- Lorem i subsection$}
+}
+
+test {
+    name    = 5. Usepackage-Ausgabe
+    comment = Erwartet eine korrekte Ausgabe der verwendeten Pakete
+    type    = param
+    cmd       {DUT Latex_Mini_Dummy.tex -u}
+    expect    {^fontenc:T1\ngraphicx:$}
+}
+
+test {
+    name    = 5.1 Usepackage-mehrere-Zeilen mit und ohne optionen
+    comment = Erwartet eine korrekte Ausgabe der (6) verwendeten Pakete
+    type    = param
+    cmd       {DUT usepackage.tex -u}
+    expect    {^aontenc:T1\nbontenc:\ncontenc:T1\ncontenc:T1,T2=red,T3=blue\ndontenc:T1,T2=red,T3=blue\ngraphicx:}
+}
+
+test {
+    name    = 6. Fehlerhafte Aufrufe des Scriptes (Keine Parameter)
+    comment = Erwartet eine Fehlermeldung
+    type    = param
+    cmd       {DUT}
+    expect    {^Error:}
+}
+
+test {
+    name    = 6.1 Fehlerhafte Aufrufe des Scriptes (Falsche Anzahl an Argumenten)
+    comment = Erwartet eine Fehlermeldung
+    type    = param
+    cmd       {DUT 1.tex -u -i}
+    expect    {^Error:}
+}
+
+test {
+    name    = 6.2 Fehlerhafte Aufrufe des Scriptes (Falsche Option)
+    comment = Erwartet eine Fehlermeldung
+    type    = param
+    cmd       {DUT 11.tex -i}
+    expect    {^Error:}
+}
+
+test {
+    name    = 6.3 Fehlerhafte Aufrufe des Scriptes (Datei nicht vorhanden)
+    comment = Erwartet eine Fehlermeldung
+    type    = param
+    cmd       {DUT blob.tex -g}
+    expect    {^Error:}
+}
+test {
+    name    = 7. Nichtlesbare Datei
+    comment = Erwartet eine Fehlermeldung
+    type    = param
+    cmd       {DUT unreadable.tex -g}
+    expect    {^Error:}
+}
