@@ -1,0 +1,138 @@
+test {
+    name    = Hilfeausgabe
+    comment = Der Hilfetext muss auf stdout ausgegeben werden.
+    type    = param
+    cmd       {DUT -h | diff - usage.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Hilfeausgabe -hX*
+    comment = Fehlerhafter Usage Aufruf
+    type    = param
+    cmd       {DUT -h2}
+    expect -i {^Error:}
+}
+
+test {
+    name    = Hilfeausgabe NUM PARAM
+    comment = Fehlerhafter Usage Aufruf (mehrere Parameter)
+    type    = param
+    cmd       {DUT -h 1 2}
+    expect -i {^Error:}
+}
+
+test {
+    name    = Fehlerhafter Aufruf
+    comment = Fehlerhafte opperanden
+    type    = param
+    cmd       {DUT a + b}
+    expect -i {^Error:}
+}
+
+test {
+    name    = Fehlerausgabe N1
+    comment = Num1 fehlerhaft
+    type    = param
+    cmd       {DUT 1s + 2}
+    expect -i {^Error:}
+}
+
+test {
+    name    = Fehlerausgabe N2
+    comment = Num2 fehlerhaft
+    type    = param
+    cmd       {DUT 1 + 2m}
+    expect -i {^Error:}
+}
+
+test {
+    name    = Fehlerausgabe OP
+    comment = OP fehlerhaft
+    type    = param
+    cmd       {DUT 1 +k 2}
+    expect -i {^Error:}
+}
+
+test {
+    name    = Einfache Addition
+    comment = Einfache Addition 5 + 4
+    type    = param
+    cmd     {DUT 5 + 4}
+    expect  {^9$}
+}
+
+test {
+    name    = Einfache Subtraktion
+    comment = Einfache Subtraktion 5 - 4
+    type    = param
+    cmd     {DUT 5 - 4}
+    expect  {^1$}
+}
+
+test {
+    name    = Einfache Subtratkion negatives ergebnis
+    comment = Einfache Subtraktion 4 - 5
+    type    = param
+    cmd     {DUT 4 - 5}
+    expect  {^-1$}
+}
+
+test {
+    name    = Einfache Multiplikation
+    comment = Einfache Multiplikation 5 * 4
+    type    = param
+    cmd     {DUT 5 \* 4}
+    expect  {^20$}
+}
+
+
+test {
+    name    = Einfache Division
+    comment = Einfache Division 20 / 4
+    type    = param
+    cmd     {DUT 20 / 4}
+    expect  {^5$}
+}
+
+test {
+    name    = Einfache Restdivision
+    comment = Einfache Restdivision 20 % 2
+    type    = param
+    cmd     {DUT 20 % 2}
+    expect  {^0$}
+}
+
+test {
+    name    = Hex. Werte
+    comment = Einfache Addition 0x2a + 0x2b
+    type    = param
+    cmd     {DUT 0x2a + 0x2b}
+    expect  {^85$}
+}
+
+test {
+    name    = Octal Werte
+    comment = Einfache Addition 037 + 044
+    type    = param
+    cmd     {DUT 037 + 044}
+    expect  {^67$}
+}
+
+test {
+    name    = Rückgabewert bei gültigem Aufruf
+    comment = Einfache Addition 5 + 4
+    type    = param
+	cmd     {DUT 5 + 4 >/dev/null ; echo $?}
+    expect  {^0$}
+}
+
+test {
+    name    = Fehlerfall: Fehlermeldung auf stderr bei ungueltigem Aufruf
+    comment = Fehlermeldung muss mit Error: beginnen und als erstes auf stderr ausgegeben werden.
+    type    = param
+    cmd       {DUT 2>&1 1>/dev/null | head -n 1}
+    expect -i {^Error:}
+}
+
+

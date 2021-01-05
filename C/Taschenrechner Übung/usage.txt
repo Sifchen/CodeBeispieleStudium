@@ -1,0 +1,21 @@
+Usage:
+
+  ueb01 -h
+
+    shows this help and exits.
+
+  - or -
+
+  ueb01 NUM1 OP NUM2
+
+    computes a binary integer operation and prints the result. A call consists
+    of a number followed by an arithmetic operation and another number.
+
+    NUM1 and NUM2 have to be positive integer numbers (including 0).
+
+    OP is one of:
+      + adds NUM1 and NUM2
+      - subtracts NUM2 from NUM1
+      * multiplies NUM1 and NUM2
+      / divides NUM1 by NUM2 (integer result)
+      % divides NUM1 by NUM2 (integer remainder)

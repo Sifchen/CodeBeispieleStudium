@@ -1,0 +1,103 @@
+test {
+    name    = Encryption no destFile
+    comment = dest file soll angelegt werden und mit der expected file übereinstimmen.
+    type    = param
+    cmd       {rm -rf ./output/fhw.txt ;DUT -e ./input/fhw.txt ./output/fhw.txt && diff --binary ./output/fhw.txt ./expected/fhw.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Decryption no destFile
+    comment = dest file soll angelegt werden und mit der expected file übereinstimmen.
+    type    = param
+    cmd       {rm -rf ./output/decNoFile.txt ;DUT -d ./input/decNoFile.txt ./output/decNoFile.txt && diff --binary ./output/decNoFile.txt ./expected/decNoFile.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Encryption non existing sourceFile
+    comment = kein Input = error
+    type    = param
+    cmd       {DUT -e ./input/fhwedel.txt ./output/fhw.txt}
+    expect -i {^ERROR\[0x0104\]\:}
+}
+
+test {
+    name    = Encryption one equalSign
+    comment = dest file soll angelegt werden und mit der expected file übereinstimmen.
+    type    = param
+    cmd       {rm -rf ./output/oneEq.txt ;DUT -e ./input/oneEq.txt ./output/oneEq.txt && diff --binary ./output/oneEq.txt ./expected/oneEq.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Encryption two equalSigns
+    comment = dest file soll angelegt werden und mit der expected file übereinstimmen.
+    type    = param
+    cmd       {rm -rf ./output/twoEq.txt ;DUT -e ./input/twoEq.txt ./output/twoEq.txt && diff --binary ./output/twoEq.txt ./expected/twoEq.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Encryption empty Source File
+    comment = dest file Soll leer sein und angelegt werden.
+    type    = param
+    cmd       {rm -rf ./output/empty.txt ;DUT -e ./input/empty.txt ./output/empty.txt && diff --binary ./output/empty.txt ./expected/empty.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Encryption One Char
+    comment = dest file Soll gleich der Expected file sein und angelegt werden.
+    type    = param
+    cmd       {rm -rf ./output/oneCh.txt ;DUT -e ./input/oneCh.txt ./output/oneCh.txt && diff --binary ./output/oneCh.txt ./expected/oneCh.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Decryption one equalSign
+    comment = dest file Soll gleich der Expected file sein und angelegt werden.
+    type    = param
+    cmd       {rm -rf ./output/decOneEq.txt ;DUT -d ./input/decOneEq.txt ./output/decOneEq.txt && diff --binary ./output/decOneEq.txt ./expected/decOneEq.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Decryption two equalSigns
+    comment = dest file Soll gleich der Expected file sein und angelegt werden.
+    type    = param
+    cmd       {rm -rf ./output/decTwoEq.txt ;DUT -d ./input/decTwoEq.txt ./output/decTwoEq.txt && diff --binary ./output/decTwoEq.txt ./expected/decTwoEq.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Decryption one Char
+    comment = dest file Soll gleich der Expected file sein und angelegt werden.
+    type    = param
+    cmd       {rm -rf ./output/decOneCh.txt ;DUT -d ./input/decOneCh.txt ./output/decOneCh.txt && diff --binary ./output/decOneCh.txt ./expected/decOneCh.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Decryption Empty
+    comment = dest file Soll gleich der Expected file sein und angelegt werden.
+    type    = param
+    cmd       {rm -rf ./output/empty.txt ;DUT -d ./input/empty.txt ./output/empty.txt && diff --binary ./output/empty.txt ./expected/empty.txt}
+    expect -i {^$}
+}
+
+test {
+    name    = Decryption invalid Chars
+    comment = ERR_B64_DECODE, ERR_B64_INVALID_CHARACTER
+    type    = param
+    cmd       {rm -rf ../output/decInvCh.txt ;DUT -d ./input/decInvCh.txt ./output/decInvCh.txt}
+    expect -i {^ERROR}
+}
+
+test {
+    name    = ERR_B64_INCOMPLETE_DATA
+    comment = ERR_B64_INCOMPLETE_DATA
+    type    = param
+    cmd       {rm -rf ./output/decIncDat.txt ;DUT -d ./input/decIncDat.txt ./output/decIncDat.txt}
+    expect -i {^ERROR}
+}

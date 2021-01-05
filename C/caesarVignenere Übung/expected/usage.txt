@@ -1,0 +1,26 @@
+Usage:
+ueb02 -h
+
+  shows this help and exits.
+
+- or -
+
+ueb02 [OPERATION [ARGUMENT], ...]
+
+  Executes a number of (simple cryptographic) operations. The maximum text
+  size for plain / cipher text and key is 30. The allowed input characters
+  range from " " to "~".
+
+  OPERATION:
+    -t TEXT:  Sets the TEXT as new (plain/cipher) text.
+    -C ROT:   Sets the cipher algorithm to caesar.
+              ROT is the rotation (a positive integer).
+    -V KEY:   Sets the cipher algorithm to vigenere.
+              KEY is the nonempty passkey.
+    -e:       Encodes and replaces the current text using the current
+              cipher algorithm.
+    -d:       Decodes and replaces the current text using the current
+              cipher algorithm.
+    -i:       Writes the histogram corresponding to the current text to
+              stdout, followed by a line break.
+    -w:       Writes the current text to stdout, followed by a line break.
